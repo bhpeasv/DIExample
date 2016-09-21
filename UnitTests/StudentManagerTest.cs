@@ -24,6 +24,11 @@ namespace UnitTests
                 students.Add(s);
             });
             mock.Setup(x => x.GetById(It.IsAny<int>())).Returns((int id) => students.FirstOrDefault(x => x.Id == id));
+            mock.Setup(x => x.GetAll()).Returns(() => students.ToList());
+            mock.Setup(x => x.Remove(It.IsAny<Student>())).Callback<Student>((s) =>
+            {
+                students.Remove(s);
+            });
         }
         [TestInitialize]
         public void testInitializer()
@@ -32,7 +37,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void AddStudentTest()
+        public void Add_New_Student_Test()
         {
             IRepository<Student> repository = mock.Object; //new Repository<Student>();
             StudentManager sm = new StudentManager(repository);
