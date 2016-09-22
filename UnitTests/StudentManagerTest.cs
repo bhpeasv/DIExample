@@ -102,6 +102,20 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void GetStudentById_NonExisting_Student_Returns_NULL_Test()
+        {
+            IRepository<Student> repository = mock.Object;
+            StudentManager sm = new StudentManager(repository);
+            Student student1 = new Student(1, "Name", "Email");
+            Student student2 = new Student(2, "Name", "Email");
+            sm.AddStudent(student1);
+
+            Student result = sm.GetStudentById(2);
+
+            Assert.AreEqual(null, result);
+        }
+
+        [TestMethod]
         public void RemoveStudent_Existing_Student_Test()
         {
             IRepository<Student> repository = mock.Object;
