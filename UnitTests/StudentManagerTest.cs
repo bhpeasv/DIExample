@@ -62,9 +62,6 @@ namespace UnitTests
 
             sm.AddStudent(student);
 
-            Assert.AreEqual(1, sm.Count);
-            Assert.AreSame(student, sm.GetStudentById(student.Id));
-
             try
             {
                 sm.AddStudent(student); // try to add the same student again
@@ -75,7 +72,7 @@ namespace UnitTests
                 Assert.AreEqual(1, sm.Count);
                 Assert.AreEqual(student, sm.GetStudentById(student.Id));
             }
-        }
+            }
 
         [TestMethod]
         public void GetStudentById_Existing_Student_Test()
@@ -91,6 +88,5 @@ namespace UnitTests
 
             Assert.AreEqual(student2, result);
         }
-
     }
 }

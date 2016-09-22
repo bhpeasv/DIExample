@@ -32,5 +32,15 @@ namespace DIExample
         {
             return sr.GetById(id);
         }
+
+        public IList<Student> GetAll()
+        {
+            return sr.GetAll();
+        }
+
+        public void Remove(Student student)
+        {
+            sr.Remove(student);
+        }
     }
 }
