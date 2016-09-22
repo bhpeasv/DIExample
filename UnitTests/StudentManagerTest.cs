@@ -50,7 +50,7 @@ namespace UnitTests
             sm.AddStudent(student);
 
             Assert.AreEqual(1, sm.Count);
-            Assert.AreSame(student, sm.GetById(student.Id));
+            Assert.AreEqual(student, sm.GetById(student.Id));
         }
 
         [TestMethod]
@@ -62,9 +62,6 @@ namespace UnitTests
 
             sm.AddStudent(student);
 
-            Assert.AreEqual(1, sm.Count);
-            Assert.AreSame(student, sm.GetById(student.Id));
-
             try
             {
                 sm.AddStudent(student); // try to add the same student again
@@ -73,7 +70,7 @@ namespace UnitTests
             catch (ArgumentException)
             {
                 Assert.AreEqual(1, sm.Count);
-                Assert.AreSame(student, sm.GetById(student.Id));
+                Assert.AreEqual(student, sm.GetById(student.Id));
             }
         }
     }
