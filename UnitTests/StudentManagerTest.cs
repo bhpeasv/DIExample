@@ -37,11 +37,11 @@ namespace UnitTests
         [TestInitialize]
         public void testInitializer()
         {
-            students = new List<Student>();
+            students.Clear();
         }
 
         [TestMethod]
-        public void Add_New_Student_Test()
+        public void AddStudent_New_Student_Test()
         {
             IRepository<Student> repository = mock.Object; //new Repository<Student>();
             StudentManager sm = new StudentManager(repository);
@@ -50,11 +50,11 @@ namespace UnitTests
             sm.AddStudent(student);
 
             Assert.AreEqual(1, sm.Count);
-            Assert.AreSame(student, sm.GetById(student.Id));
+            Assert.AreEqual(student, sm.GetStudentById(student.Id));
         }
 
         [TestMethod]
-        public void Add_Existing_Student_Expect_ArgumentException_Test()
+        public void AddStudent_Existing_Student_Expect_ArgumentException_Test()
         {
             IRepository<Student> repository = mock.Object; //new Repository<Student>();
             StudentManager sm = new StudentManager(repository);
@@ -63,7 +63,7 @@ namespace UnitTests
             sm.AddStudent(student);
 
             Assert.AreEqual(1, sm.Count);
-            Assert.AreSame(student, sm.GetById(student.Id));
+            Assert.AreSame(student, sm.GetStudentById(student.Id));
 
             try
             {
@@ -73,8 +73,24 @@ namespace UnitTests
             catch (ArgumentException)
             {
                 Assert.AreEqual(1, sm.Count);
-                Assert.AreSame(student, sm.GetById(student.Id));
+                Assert.AreEqual(student, sm.GetStudentById(student.Id));
             }
         }
+
+        [TestMethod]
+        public void GetStudentById_Existing_Student_Test()
+        {
+            IRepository<Student> repository = mock.Object;
+            StudentManager sm = new StudentManager(repository);
+            Student student1 = new Student(1, "Name", "Email");
+            Student student2 = new Student(2, "Name", "Email");
+            sm.AddStudent(student2);
+            sm.AddStudent(student1);
+
+            Student result = sm.GetStudentById(2);
+
+            Assert.AreEqual(student2, result);
+        }
+
     }
 }
