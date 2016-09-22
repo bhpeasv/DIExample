@@ -28,7 +28,11 @@ namespace DIExample
         }
 
         public void AddStudent(Student aStudent)
-        {            
+        {
+            if (GetStudentById(aStudent.Id) != null)
+            {
+                throw new ArgumentException("Student already exist.");
+            }
             sr.Add(aStudent);
         }
 
@@ -44,6 +48,10 @@ namespace DIExample
 
         public void RemoveStudent(Student student)
         {
+            if (GetStudentById(student.Id) == null)
+            {
+                throw new ArgumentException("Student does not exist.");
+            }
             sr.Remove(student);
         }
     }
