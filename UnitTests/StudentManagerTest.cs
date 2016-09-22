@@ -19,20 +19,10 @@ namespace UnitTests
         {
             mock = new Mock<IRepository<Student>>();
             mock.SetupGet(x => x.Count).Returns(() => students.Count);
-            mock.Setup(x => x.Add(It.IsAny<Student>())).Callback<Student>((s) =>
-            {
-                if (students.Contains(s))
-                {
-                    throw new ArgumentException("Student already exist");
-                }
-                students.Add(s);
-            });
+            mock.Setup(x => x.Add(It.IsAny<Student>())).Callback<Student>((s) => { students.Add(s); });
             mock.Setup(x => x.GetById(It.IsAny<int>())).Returns((int id) => students.FirstOrDefault(x => x.Id == id));
             mock.Setup(x => x.GetAll()).Returns(() => students.ToList());
-            mock.Setup(x => x.Remove(It.IsAny<Student>())).Callback<Student>((s) =>
-            {
-                students.Remove(s);
-            });
+            mock.Setup(x => x.Remove(It.IsAny<Student>())).Callback<Student>((s) => { students.Remove(s); });
         }
         [TestInitialize]
         public void testInitializer()
@@ -125,6 +115,28 @@ namespace UnitTests
 
             Assert.AreEqual(1, sm.Count);
             Assert.AreEqual(student1, sm.GetAllStudents()[0]);
+        }
+
+        [TestMethod]
+        public void RemoveStudent_NonExisting_Student_Expect_ArgumentException_Test()
+        {
+            IRepository<Student> repository = mock.Object;
+            StudentManager sm = new StudentManager(repository);
+            Student student1 = new Student(1, "Name", "Email");
+            Student student2 = new Student(2, "Name", "Email");
+            sm.AddStudent(student1);
+
+            try
+            {
+                sm.RemoveStudent(student2);
+                Assert.Fail("Removed non-existing student");
+            }
+            catch (ArgumentException)
+            {
+
+                Assert.AreEqual(1, sm.Count);
+                Assert.AreEqual(student1, sm.GetAllStudents()[0]);
+            }
         }
     }
 }
