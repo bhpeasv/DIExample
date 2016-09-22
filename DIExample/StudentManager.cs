@@ -20,11 +20,15 @@ namespace DIExample
 
         public StudentManager(IRepository<Student> repo)
         {
+            if (repo == null)
+            {
+                throw new ArgumentNullException("Repository is missing");
+            }
             sr = repo;
         }
 
         public void AddStudent(Student aStudent)
-        {
+        {            
             sr.Add(aStudent);
         }
 
@@ -33,12 +37,12 @@ namespace DIExample
             return sr.GetById(id);
         }
 
-        public IList<Student> GetAll()
+        public IList<Student> GetAllStudents()
         {
             return sr.GetAll();
         }
 
-        public void Remove(Student student)
+        public void RemoveStudent(Student student)
         {
             sr.Remove(student);
         }
