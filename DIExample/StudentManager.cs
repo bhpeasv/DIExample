@@ -28,7 +28,7 @@ namespace DIExample
             sr.Add(aStudent);
         }
 
-        public Student GetById(int id)
+        public Student GetStudentById(int id)
         {
             return sr.GetById(id);
         }
