@@ -41,6 +41,28 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void Create_StudentManager_Existing_Repository_Test()
+        {
+            IRepository<Student> repository = mock.Object;
+
+            StudentManager sm = new StudentManager(repository);
+
+            Assert.IsNotNull(sm);
+            Assert.AreEqual(0, sm.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Create_StudentManager_No_Repository_Expect_ArgumentNullException_Test()
+        {
+            IRepository<Student> repository = null;
+
+            StudentManager sm = new StudentManager(repository);
+
+            Assert.Fail("Created StudentManager with NULL repository");
+        }
+
+        [TestMethod]
         public void AddStudent_New_Student_Test()
         {
             IRepository<Student> repository = mock.Object; //new Repository<Student>();
@@ -72,7 +94,7 @@ namespace UnitTests
                 Assert.AreEqual(1, sm.Count);
                 Assert.AreEqual(student, sm.GetStudentById(student.Id));
             }
-            }
+        }
 
         [TestMethod]
         public void GetStudentById_Existing_Student_Test()
