@@ -26,13 +26,19 @@ namespace UnitTests
             mock.Setup(x => x.GetAll()).Returns(() => students.ToList());
             mock.Setup(x => x.Remove(It.IsAny<Student>())).Callback<Student>((s) => students.Remove(s));
         }
-
+        /// <summary>
+        /// Executed before each test method is executed.
+        /// Ensures each test is executed on an empty repository.
+        /// </summary>
         [TestInitialize]
         public void testInitializer()
         {
             students.Clear();
         }
 
+        /// <summary>
+        /// Test method testing the creation of a StudentManager with an existing repository.
+        /// </summary>
         [TestMethod]
         public void Create_StudentManager_Existing_Repository_Test()
         {
@@ -44,6 +50,10 @@ namespace UnitTests
             Assert.AreEqual(0, sm.Count);
         }
 
+        /// <summary>
+        /// Test method testing creation of a StudentManager with no repository (null).
+        /// Expects ArgumentNullException to be thrown.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Create_StudentManager_No_Repository_Expect_ArgumentNullException_Test()
@@ -55,6 +65,9 @@ namespace UnitTests
             Assert.Fail("Created StudentManager with NULL repository");
         }
 
+        /// <summary>
+        /// Test method testing adding a new student to the repository.
+        /// </summary>
         [TestMethod]
         public void AddStudent_New_Student_Test()
         {
@@ -68,6 +81,10 @@ namespace UnitTests
             Assert.AreEqual(student, sm.GetStudentById(student.Id));
         }
 
+        /// <summary>
+        /// Test method adding an existing student to the repository.
+        /// Expects an ArgumentException to be thrown.
+        /// </summary>
         [TestMethod]
         public void AddStudent_Existing_Student_Expect_ArgumentException_Test()
         {
@@ -89,6 +106,9 @@ namespace UnitTests
             }
         }
 
+        /// <summary>
+        /// Test method testing the retrieval of all students from the repository.
+        /// </summary>
         [TestMethod]
         public void GetAllStudents_Test()
         {
@@ -107,6 +127,9 @@ namespace UnitTests
             Assert.AreEqual(student2, result[1]);
         }
 
+        /// <summary>
+        /// Test method testing retrieval of an existing student with a specific Id.
+        /// </summary>
         [TestMethod]
         public void GetStudentById_Existing_Student_Test()
         {
@@ -122,6 +145,10 @@ namespace UnitTests
             Assert.AreEqual(student2, result);
         }
 
+        /// <summary>
+        /// Test method testing the retrieval on a non-existing student.
+        /// Expects an ArgumentException to be thrown.
+        /// </summary>
         [TestMethod]
         public void GetStudentById_NonExisting_Student_Returns_NULL_Test()
         {
@@ -136,6 +163,9 @@ namespace UnitTests
             Assert.AreEqual(null, result);
         }
 
+        /// <summary>
+        /// Test method testing removal of an existing student.
+        /// </summary>
         [TestMethod]
         public void RemoveStudent_Existing_Student_Test()
         {
@@ -153,7 +183,8 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Just some comment.
+        /// Test method testing removal of a non-existing student.
+        /// Expects an ArgumentException to be thrown.
         /// </summary>
         [TestMethod]
         public void RemoveStudent_NonExisting_Student_Expect_ArgumentException_Test()
