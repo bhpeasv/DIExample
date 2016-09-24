@@ -152,6 +152,9 @@ namespace UnitTests
             Assert.AreEqual(student1, sm.GetAllStudents()[0]);
         }
 
+        /// <summary>
+        /// Just some comment.
+        /// </summary>
         [TestMethod]
         public void RemoveStudent_NonExisting_Student_Expect_ArgumentException_Test()
         {
