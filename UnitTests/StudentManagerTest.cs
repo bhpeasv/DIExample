@@ -12,6 +12,8 @@ namespace UnitTests
     public class StudentManagerTest
     {
         private static Mock<IRepository<Student>> mock;
+
+        // List of students replacing the use of the repository instance for testing.
         private static IList<Student> students = new List<Student>();
 
         [ClassInitialize]
@@ -147,7 +149,6 @@ namespace UnitTests
             }
             catch (ArgumentException)
             {
-
                 Assert.AreEqual(1, sm.Count);
                 Assert.AreEqual(student1, sm.GetAllStudents()[0]);
             }
