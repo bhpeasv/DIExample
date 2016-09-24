@@ -12,6 +12,8 @@ namespace UnitTests
     public class StudentManagerTest
     {
         private static Mock<IRepository<Student>> mock;
+
+        // Internal list of students replacing the repository (fake repository)
         private static IList<Student> students = new List<Student>(); 
 
         [ClassInitialize]
