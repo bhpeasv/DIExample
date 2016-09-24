@@ -181,7 +181,6 @@ namespace UnitTests
             }
             catch (ArgumentException)
             {
-
                 Assert.AreEqual(1, sm.Count);
                 Assert.AreEqual(student1, sm.GetAllStudents()[0]);
             }
