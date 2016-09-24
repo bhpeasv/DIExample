@@ -90,6 +90,24 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void GetAllStudents_Test()
+        {
+            IRepository<Student> repository = mock.Object; 
+            StudentManager sm = new StudentManager(repository);
+            Student student1 = new Student(1, "Name", "Email");
+            Student student2 = new Student(2, "Name", "Email");
+
+            sm.AddStudent(student1);
+            sm.AddStudent(student2);
+
+            IList<Student> result = sm.GetAllStudents();
+
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(student1, result[0]);
+            Assert.AreEqual(student2, result[1]);
+        }
+
+        [TestMethod]
         public void GetStudentById_Existing_Student_Test()
         {
             IRepository<Student> repository = mock.Object;
