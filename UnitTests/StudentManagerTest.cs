@@ -13,25 +13,33 @@ namespace UnitTests
     {
         private static Mock<IRepository<Student>> mock;
 
-        // List of students replacing the use of the repository instance for testing.
+        // Internal list of students used by the tests (fake repository)
         private static IList<Student> students = new List<Student>();
 
         [ClassInitialize]
         public static void classInitializer(TestContext context)
         {
+            // redirecting the used repository to the internal students list of the test class (a fake repository)
             mock = new Mock<IRepository<Student>>();
             mock.SetupGet(x => x.Count).Returns(() => students.Count);
-            mock.Setup(x => x.Add(It.IsAny<Student>())).Callback<Student>((s) => { students.Add(s); });
+            mock.Setup(x => x.Add(It.IsAny<Student>())).Callback<Student>((s) => students.Add(s));
             mock.Setup(x => x.GetById(It.IsAny<int>())).Returns((int id) => students.FirstOrDefault(x => x.Id == id));
             mock.Setup(x => x.GetAll()).Returns(() => students.ToList());
             mock.Setup(x => x.Remove(It.IsAny<Student>())).Callback<Student>((s) => students.Remove(s));
         }
+
+        /// <summary>
+        /// Test initialize method is executed before execution of EACH test
+        /// </summary>
         [TestInitialize]
         public void testInitializer()
         {
             students.Clear();
         }
 
+        /// <summary>
+        /// Test method for adding an exisiting repository object to the StudentManager at creation.
+        /// </summary>
         [TestMethod]
         public void Create_StudentManager_Existing_Repository_Test()
         {
@@ -43,6 +51,10 @@ namespace UnitTests
             Assert.AreEqual(0, sm.Count);
         }
 
+        /// <summary>
+        /// Test method for adding a NULL reference as repository to the StudentManager at creation.
+        /// Should throw an ArgumentNullException.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Create_StudentManager_No_Repository_Expect_ArgumentNullException_Test()
@@ -54,6 +66,9 @@ namespace UnitTests
             Assert.Fail("Created StudentManager with NULL repository");
         }
 
+        /// <summary>
+        /// Test method for adding a new student to the repository.
+        /// </summary>
         [TestMethod]
         public void AddStudent_New_Student_Test()
         {
@@ -67,6 +82,10 @@ namespace UnitTests
             Assert.AreEqual(student, sm.GetStudentById(student.Id));
         }
 
+        /// <summary>
+        /// Test method for trying to add a student with an ID matching a student already contained in the repository.
+        /// Should throw an ArgumentException.
+        /// </summary>
         [TestMethod]
         public void AddStudent_Existing_Student_Expect_ArgumentException_Test()
         {
@@ -88,6 +107,10 @@ namespace UnitTests
             }
         }
 
+        /// <summary>
+        /// Test method for retrieving an existing student by Id.
+        /// The found student object is returned.
+        /// </summary>
         [TestMethod]
         public void GetStudentById_Existing_Student_Test()
         {
@@ -103,6 +126,10 @@ namespace UnitTests
             Assert.AreEqual(student2, result);
         }
 
+        /// <summary>
+        /// Test method for retrieving a non-existing student.
+        /// Should return null.
+        /// </summary>
         [TestMethod]
         public void GetStudentById_NonExisting_Student_Returns_NULL_Test()
         {
@@ -117,6 +144,9 @@ namespace UnitTests
             Assert.AreEqual(null, result);
         }
 
+        /// <summary>
+        /// Test method for removing an existing student.
+        /// </summary>
         [TestMethod]
         public void RemoveStudent_Existing_Student_Test()
         {
@@ -133,6 +163,10 @@ namespace UnitTests
             Assert.AreEqual(student1, sm.GetAllStudents()[0]);
         }
 
+        /// <summary>
+        /// Test method for trying to remove a non-existing student.
+        /// Should throw an ArgumentException.
+        /// </summary>
         [TestMethod]
         public void RemoveStudent_NonExisting_Student_Expect_ArgumentException_Test()
         {
