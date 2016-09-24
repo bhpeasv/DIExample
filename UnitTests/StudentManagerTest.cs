@@ -19,11 +19,12 @@ namespace UnitTests
         {
             mock = new Mock<IRepository<Student>>();
             mock.SetupGet(x => x.Count).Returns(() => students.Count);
-            mock.Setup(x => x.Add(It.IsAny<Student>())).Callback<Student>((s) => { students.Add(s); });
+            mock.Setup(x => x.Add(It.IsAny<Student>())).Callback<Student>((s) => students.Add(s));
             mock.Setup(x => x.GetById(It.IsAny<int>())).Returns((int id) => students.FirstOrDefault(x => x.Id == id));
             mock.Setup(x => x.GetAll()).Returns(() => students.ToList());
             mock.Setup(x => x.Remove(It.IsAny<Student>())).Callback<Student>((s) => { students.Remove(s); });
         }
+
         [TestInitialize]
         public void testInitializer()
         {
