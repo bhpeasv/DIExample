@@ -46,7 +46,7 @@ namespace DIExample
             return sr.GetAll();
         }
 
-        public void Remove(Student student)
+        public void RemoveStudent(Student student)
         {
             sr.Remove(student);
         }
