@@ -178,8 +178,32 @@ namespace UnitTests
             Assert.AreEqual(1, sm.Count);
             Assert.AreEqual(student2, sm.GetAllStudents()[0]);
         }
+        [TestMethod]
+
+        public void Remove_NonExisting_Student_Expect_ArgumentException_Test()
+        {
+            IRepository<Student> repository = mock.Object;
+            StudentManager sm = new StudentManager(repository);
+            Student student1 = new Student(1, "Name", "Email");
+            Student student2 = new Student(2, "Name", "Email");
+            sm.AddStudent(student2);
+
+            try
+            {
+                sm.RemoveStudent(student1);
+                Assert.Fail("Removed non-existing student");
+            }
+            catch (ArgumentException)
+            {
+                Assert.AreEqual(1, sm.Count);
+                Assert.AreEqual(student2, sm.GetAllStudents()[0]);
+            }
+        }
+
     }
 
-   
+
+
+
 
 }
