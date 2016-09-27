@@ -162,7 +162,24 @@ namespace UnitTests
 
             Assert.AreEqual(null, result);
         }
-     }
 
+        [TestMethod]
+        public void Remove_Existing_Student_Test()
+        {
+            IRepository<Student> repository = mock.Object;
+            StudentManager sm = new StudentManager(repository);
+            Student student1 = new Student(1, "Name", "Email");
+            Student student2 = new Student(2, "Name", "Email");
+            sm.AddStudent(student1);
+            sm.AddStudent(student2);
+
+            sm.RemoveStudent(student1);
+
+            Assert.AreEqual(1, sm.Count);
+            Assert.AreEqual(student2, sm.GetAllStudents()[0]);
+        }
+    }
+
+   
 
 }
