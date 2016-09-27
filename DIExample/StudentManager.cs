@@ -48,6 +48,8 @@ namespace DIExample
 
         public void RemoveStudent(Student student)
         {
+            if (GetStudentById(student.Id) == null)
+                throw new ArgumentException("bla");
             sr.Remove(student);
         }
     }
