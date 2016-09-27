@@ -162,49 +162,5 @@ namespace UnitTests
 
             Assert.AreEqual(null, result);
         }
-
-        /// <summary>
-        /// Test method testing removal of an existing student.
-        /// </summary>
-        [TestMethod]
-        public void RemoveStudent_Existing_Student_Test()
-        {
-            IRepository<Student> repository = mock.Object;
-            StudentManager sm = new StudentManager(repository);
-            Student student1 = new Student(1, "Name", "Email");
-            Student student2 = new Student(2, "Name", "Email");
-            sm.AddStudent(student2);
-            sm.AddStudent(student1);
-
-            sm.RemoveStudent(student2);
-
-            Assert.AreEqual(1, sm.Count);
-            Assert.AreEqual(student1, sm.GetAllStudents()[0]);
-        }
-
-        /// <summary>
-        /// Test method testing removal of a non-existing student.
-        /// Expects an ArgumentException to be thrown.
-        /// </summary>
-        [TestMethod]
-        public void RemoveStudent_NonExisting_Student_Expect_ArgumentException_Test()
-        {
-            IRepository<Student> repository = mock.Object;
-            StudentManager sm = new StudentManager(repository);
-            Student student1 = new Student(1, "Name", "Email");
-            Student student2 = new Student(2, "Name", "Email");
-            sm.AddStudent(student1);
-
-            try
-            {
-                sm.RemoveStudent(student2);
-                Assert.Fail("Removed non-existing student");
-            }
-            catch (ArgumentException)
-            {
-                Assert.AreEqual(1, sm.Count);
-                Assert.AreEqual(student1, sm.GetAllStudents()[0]);
-            }
-        }
-    }
+     }
 }
